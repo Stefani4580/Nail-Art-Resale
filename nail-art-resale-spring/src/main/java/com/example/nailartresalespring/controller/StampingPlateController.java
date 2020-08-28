@@ -3,11 +3,11 @@ package com.example.nailartresalespring.controller;
 import com.example.nailartresalespring.models.StampingPlate;
 import com.example.nailartresalespring.service.StampingPlateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/stampingplates")
 public class StampingPlateController {
 
@@ -17,5 +17,15 @@ public class StampingPlateController {
     @GetMapping
     public Iterable<StampingPlate> listStampingPlates(){
         return stampingPlateService.listStampingPlates();
+    }
+
+    @PostMapping
+    public StampingPlate createStampingPlate(@RequestBody StampingPlate stampingPlate){
+        return stampingPlateService.createStampingPlate(stampingPlate);
+    }
+
+    @DeleteMapping("/stampingplate/{id}")
+    public HttpStatus deleteStampingPlateById(@PathVariable Long id){
+        return stampingPlateService.deleteStampingPlateById(id);
     }
 }
