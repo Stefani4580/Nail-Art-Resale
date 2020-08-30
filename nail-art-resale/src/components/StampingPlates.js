@@ -1,7 +1,9 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import InputGroup from "react-bootstrap/InputGroup";
+import Table from "react-bootstrap/Table";
 
 function StampingPlates() {
   const [stampingPlate, setStampingPlate] = useState({
@@ -9,6 +11,7 @@ function StampingPlates() {
     brand: "",
     price: "",
   });
+  const [stampingPlates, setStampingPlates] = useState([]);
 
   const getName = (e) => {
     setStampingPlate({ ...stampingPlate, name: e.target.value });
@@ -40,6 +43,16 @@ function StampingPlates() {
     }
   }
 
+  const getStampingPlates = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/stampingplates");
+      console.log(response.data);
+      setStampingPlates(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   async function deleteStampingPlate() {
     console.log("Inside deleteStampingPlate");
     // try {
@@ -64,6 +77,23 @@ function StampingPlates() {
     e.preventDefault();
     deleteStampingPlate();
   };
+
+  useEffect(() => {
+    getStampingPlates();
+  }, []);
+
+  const stampingPlateRows = stampingPlates.map((item, id) => {
+    return (
+      <tr>
+        <td>{item.name}</td>
+        <td>{item.brand}</td>
+        <td>{item.price}</td>
+        <td>
+          <InputGroup.Checkbox aria-label="Checkbox for following text input" />
+        </td>
+      </tr>
+    );
+  });
 
   return (
     <div className="App">
@@ -97,10 +127,19 @@ function StampingPlates() {
         <Button variant="primary" type="submit" onClick={handleSubmit}>
           Submit
         </Button>
-<StampingPlatesTable />
-
-
       </Form>
+
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>delete?</th>
+          </tr>
+        </thead>
+        <tbody>{stampingPlateRows}</tbody>
+      </Table>
     </div>
   );
 }
