@@ -12,22 +12,16 @@ function StampingPlates() {
     price: "",
   });
   const [stampingPlates, setStampingPlates] = useState([]);
+  const [stampingPlateId, setStampingPlateId] = useState([]);
 
-  const getName = (e) => {
-    setStampingPlate({ ...stampingPlate, name: e.target.value });
+  const getStampingPlateData = (e) => {
+    const { value, id } = e.target;
+    setStampingPlate({ ...stampingPlate, [id]: value });
   };
 
-  const getBrand = (e) => {
-    setStampingPlate({ ...stampingPlate, brand: e.target.value });
-  };
-
-  const getPrice = (e) => {
-    // setPrice(e.target.value);
-  };
-
-  const getPlateId = (e) => {
-    // setPlateId(e.target.value);
-  };
+  const getStampingPlateId = (e) =>{
+      setStampingPlateId(e.target.value);
+  }
 
   async function createStampingPlate() {
     console.log("Inside createStampingPlate");
@@ -36,6 +30,10 @@ function StampingPlates() {
         "http://localhost:8080/stampingplates",
         stampingPlate
       );
+
+      let addForm = document.getElementById("add-form");
+      addForm.reset();
+      getStampingPlates();
       console.log("After API call");
       console.log(response.data);
     } catch (error) {
@@ -55,15 +53,20 @@ function StampingPlates() {
 
   async function deleteStampingPlate() {
     console.log("Inside deleteStampingPlate");
-    // try {
-    //   const response = await axios.delete(
-    //     `http://localhost:8080/stampingplates/stampingplate/${plateId}`
-    //   );
-    //   console.log("After API call");
-    //   console.log(response.data);
-    // } catch (error) {
-    //   console.log("error: ", error);
-    // }
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/stampingplates/stampingplate/${stampingPlateId}`
+      );
+
+      let deleteForm = document.getElementById("delete-form");
+      deleteForm.reset();
+
+      getStampingPlates();
+      console.log("After API call");
+      console.log(response.data);
+    } catch (error) {
+      console.log("error: ", error);
+    }
   }
 
   const handleSubmit = (e) => {
@@ -84,62 +87,57 @@ function StampingPlates() {
 
   const stampingPlateRows = stampingPlates.map((item, id) => {
     return (
-      <tr>
+      <tr id={id}>
+        <td>{item.id}</td>
         <td>{item.name}</td>
         <td>{item.brand}</td>
         <td>{item.price}</td>
-        <td>
-          <InputGroup.Checkbox aria-label="Checkbox for following text input" />
-        </td>
       </tr>
     );
   });
 
   return (
     <div className="App">
-      <Form>
+      <Form id="add-form" onChange={getStampingPlateData}>
         <Form.Group>
           <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter name"
-            onChange={getName}
-          />
+          <Form.Control type="text" id="name" placeholder="Enter name" />
         </Form.Group>
 
         <Form.Group>
           <Form.Label>Brand</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter brand"
-            onChange={getBrand}
-          />
+          <Form.Control type="text" id="brand" placeholder="Enter brand" />
         </Form.Group>
 
         <Form.Group>
           <Form.Label>Price</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter price"
-            onChange={getPrice}
-          />
+          <Form.Control type="text" id="price" placeholder="Enter price" />
         </Form.Group>
         <Button variant="primary" type="submit" onClick={handleSubmit}>
-          Submit
+          Add
         </Button>
       </Form>
 
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Name</th>
             <th>Brand</th>
             <th>Price</th>
-            <th>delete?</th>
           </tr>
         </thead>
         <tbody>{stampingPlateRows}</tbody>
       </Table>
+      <Form id="delete-form">
+        <Form.Group>
+          <Form.Label>ID</Form.Label>
+          <Form.Control type="text" placeholder="Enter ID" onChange={getStampingPlateId}/>
+        </Form.Group>
+        <Button variant="primary" type="submit" onClick={handleDeleteSubmit}>
+          Delete
+        </Button>
+      </Form>
     </div>
   );
 }
