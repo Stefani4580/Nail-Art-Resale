@@ -22,7 +22,7 @@ public class NailPolishServiceImpl implements NailPolishService {
     }
 
     @Override
-    public HttpStatus deleteNailPolish(Long id) {
+    public HttpStatus deleteNailPolishById(Long id) {
         nailPolishRepository.deleteById(id);
         return HttpStatus.OK;
     }

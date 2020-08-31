@@ -6,5 +6,5 @@ import org.springframework.http.HttpStatus;
 public interface NailPolishService {
     public Iterable<NailPolish> listNailPolish();
     public NailPolish createNailPolish(NailPolish nailPolish);
-    public HttpStatus deleteNailPolish(Long id);
+    public HttpStatus deleteNailPolishById(Long id);
 }
