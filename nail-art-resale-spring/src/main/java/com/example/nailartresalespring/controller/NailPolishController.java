@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/nailpolish")
+@RequestMapping("/nailpolishes")
 public class NailPolishController {
 
     @Autowired
@@ -16,7 +16,7 @@ public class NailPolishController {
 
     @GetMapping
     public Iterable<NailPolish> listNailPolish(){
-        return nailPolishService.listNailPolish();
+        return nailPolishService.listNailPolishes();
     }
 
     @PostMapping

@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="NailArtAccessories")
-public class NailArtAccessories {
+public class NailArtAccessory {
 
     @Id
     @Column
@@ -60,6 +60,6 @@ public class NailArtAccessories {
         this.price = price;
     }
 
-    public NailArtAccessories() {
+    public NailArtAccessory() {
     }
 }

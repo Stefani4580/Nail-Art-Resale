@@ -4,7 +4,7 @@ import com.example.nailartresalespring.models.NailPolish;
 import org.springframework.http.HttpStatus;
 
 public interface NailPolishService {
-    public Iterable<NailPolish> listNailPolish();
+    public Iterable<NailPolish> listNailPolishes();
     public NailPolish createNailPolish(NailPolish nailPolish);
     public HttpStatus deleteNailPolishById(Long id);
 }

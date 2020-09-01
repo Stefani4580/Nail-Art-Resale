@@ -12,7 +12,7 @@ public class NailPolishServiceImpl implements NailPolishService {
     NailPolishRepository nailPolishRepository;
 
     @Override
-    public Iterable<NailPolish> listNailPolish() {
+    public Iterable<NailPolish> listNailPolishes() {
         return nailPolishRepository.findAll();
     }
 
