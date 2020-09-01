@@ -5,6 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import StampingPlates from './StampingPlates';
 import NailPolish from "./NailPolish";
 import NailArtAccessories from "./NailArtAccessories.js";
+import Home from "./Home";
 
 export default function Main() {
   return (
@@ -46,7 +47,7 @@ export default function Main() {
             <NailArtAccessories />
           </Route>
           <Route path="/">
-            {/* <Home /> */}
+            <Home />
           </Route>
         </Switch>
       </div>
