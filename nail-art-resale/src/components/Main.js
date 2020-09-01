@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import StampingPlates from './StampingPlates';
+import NailPolish from "./NailPolish";
+import NailArtAccessories from "./NailArtAccessories.js";
 
 export default function Main() {
   return (
@@ -21,11 +23,11 @@ export default function Main() {
               <Nav.Link as={Link} to="/stampingPlates">
                 Stamping Plates
               </Nav.Link>
-              <Nav.Link as={Link} to="/">
+              <Nav.Link as={Link} to="/nailPolish">
                 Nail Polish
               </Nav.Link>
-              <Nav.Link as={Link} to="/">
-                Nail Art Tools
+              <Nav.Link as={Link} to="/nailArtAccessories">
+                Nail Art Accessories
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
@@ -38,10 +40,10 @@ export default function Main() {
             <StampingPlates />
           </Route>
           <Route path="/nailPolish">
-            {/* <NailPolish /> */}
+            <NailPolish />
           </Route>
-          <Route path="/nailArtTools">
-            {/* <NailArtTools /> */}
+          <Route path="/nailArtAccessories">
+            <NailArtAccessories />
           </Route>
           <Route path="/">
             {/* <Home /> */}

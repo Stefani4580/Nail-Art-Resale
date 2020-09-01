@@ -4,35 +4,36 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 
-function StampingPlates() {
-  const [stampingPlate, setStampingPlate] = useState({
+function NailPolish() {
+  const [nailPolish, setNailPolish] = useState({
     name: "",
     brand: "",
+    color: "",
     price: "",
   });
-  const [stampingPlates, setStampingPlates] = useState([]);
-  const [stampingPlateId, setStampingPlateId] = useState([]);
+  const [nailPolishes, setNailPolishes] = useState([]);
+  const [nailPolishId, setNailPolishId] = useState([]);
 
-  const getStampingPlateData = (e) => {
+  const getNailPolishData = (e) => {
     const { value, id } = e.target;
-    setStampingPlate({ ...stampingPlate, [id]: value });
+    setNailPolish({ ...nailPolish, [id]: value });
   };
 
-  const getStampingPlateId = (e) =>{
-      setStampingPlateId(e.target.value);
+  const getNailPolishId = (e) =>{
+      setNailPolishId(e.target.value);
   }
 
-  async function createStampingPlate() {
-    console.log("Inside createStampingPlate");
+  async function createNailPolish() {
+    console.log("Inside createNailPolish");
     try {
       const response = await axios.post(
-        "http://localhost:8080/stampingplates",
-        stampingPlate
+        "http://localhost:8080/nailpolishes",
+        nailPolish
       );
 
       let addForm = document.getElementById("add-form");
       addForm.reset();
-      getStampingPlates();
+      getNailPolish();
       console.log("After API call");
       console.log(response.data);
     } catch (error) {
@@ -40,27 +41,27 @@ function StampingPlates() {
     }
   }
 
-  const getStampingPlates = async () => {
+  const getNailPolish = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/stampingplates");
+      const response = await axios.get("http://localhost:8080/nailpolishes");
       console.log(response.data);
-      setStampingPlates(response.data);
+      setNailPolishes(response.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  async function deleteStampingPlate() {
-    console.log("Inside deleteStampingPlate");
+  async function deleteNailPolish() {
+    console.log("Inside deleteNailPolish");
     try {
       const response = await axios.delete(
-        `http://localhost:8080/stampingplates/stampingplate/${stampingPlateId}`
+        `http://localhost:8080/nailpolishes/nailpolish/${nailPolishId}`
       );
 
       let deleteForm = document.getElementById("delete-form");
       deleteForm.reset();
 
-      getStampingPlates();
+      getNailPolish();
       console.log("After API call");
       console.log(response.data);
     } catch (error) {
@@ -71,25 +72,26 @@ function StampingPlates() {
   const handleSubmit = (e) => {
     console.log("Inside handleSubmit");
     e.preventDefault();
-    createStampingPlate();
+    createNailPolish();
   };
 
   const handleDeleteSubmit = (e) => {
     console.log("Inside handleDeleteSubmit");
     e.preventDefault();
-    deleteStampingPlate();
+    deleteNailPolish();
   };
 
   useEffect(() => {
-    getStampingPlates();
+    getNailPolish();
   }, []);
 
-  const stampingPlateRows = stampingPlates.map((item, id) => {
+  const nailPolishRows = nailPolishes.map((item, id) => {
     return (
       <tr id={id}>
         <td>{item.id}</td>
         <td>{item.name}</td>
         <td>{item.brand}</td>
+        <td>{item.color}</td>
         <td>{item.price}</td>
       </tr>
     );
@@ -97,7 +99,7 @@ function StampingPlates() {
 
   return (
     <div className="App">
-      <Form id="add-form" onChange={getStampingPlateData}>
+      <Form id="add-form" onChange={getNailPolishData}>
         <Form.Group>
           <Form.Label>Name</Form.Label>
           <Form.Control type="text" id="name" placeholder="Enter name" />
@@ -106,6 +108,11 @@ function StampingPlates() {
         <Form.Group>
           <Form.Label>Brand</Form.Label>
           <Form.Control type="text" id="brand" placeholder="Enter brand" />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Color</Form.Label>
+          <Form.Control type="text" id="color" placeholder="Enter color" />
         </Form.Group>
 
         <Form.Group>
@@ -123,15 +130,16 @@ function StampingPlates() {
             <th>ID</th>
             <th>Name</th>
             <th>Brand</th>
+            <th>Color</th>
             <th>Price</th>
           </tr>
         </thead>
-        <tbody>{stampingPlateRows}</tbody>
+        <tbody>{nailPolishRows}</tbody>
       </Table>
       <Form id="delete-form">
         <Form.Group>
           <Form.Label>ID</Form.Label>
-          <Form.Control type="text" placeholder="Enter ID" onChange={getStampingPlateId}/>
+          <Form.Control type="text" placeholder="Enter ID" onChange={getNailPolishId}/>
         </Form.Group>
         <Button variant="primary" type="submit" onClick={handleDeleteSubmit}>
           Delete
@@ -141,4 +149,4 @@ function StampingPlates() {
   );
 }
 
-export default StampingPlates;
+export default NailPolish;
