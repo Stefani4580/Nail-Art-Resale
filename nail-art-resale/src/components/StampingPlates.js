@@ -32,6 +32,9 @@ function StampingPlates() {
 
       let addForm = document.getElementById("add-form");
       addForm.reset();
+      let updateForm = document.getElementById("update-form");
+      updateForm.reset();
+
       getStampingPlates();
       console.log("After API call");
       console.log(response.data);
@@ -69,10 +72,17 @@ function StampingPlates() {
   }
 
   const handleSubmit = (e) => {
-    console.log("Inside handleSubmit");
+    // console.log("Inside handleSubmit");
     e.preventDefault();
     createStampingPlate();
   };
+
+  const handleUpdateSubmit = (e) => {
+    // console.log("Inside handleUpdateSubmit");
+    e.preventDefault();
+    createStampingPlate();
+  };
+
 
   const handleDeleteSubmit = (e) => {
     console.log("Inside handleDeleteSubmit");
@@ -116,7 +126,6 @@ function StampingPlates() {
           Add
         </Button>
       </Form>
-
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -135,6 +144,28 @@ function StampingPlates() {
         </Form.Group>
         <Button variant="primary" type="submit" onClick={handleDeleteSubmit}>
           Delete
+        </Button>
+      </Form>
+      <Form id="update-form" onChange={getStampingPlateData}>
+        <Form.Group>
+          <Form.Label>ID</Form.Label>
+          <Form.Control type="text" class="id" id="id" placeholder="Enter ID" onChange={getStampingPlateId} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text"  id="name" placeholder="Enter name" />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Brand</Form.Label>
+          <Form.Control type="text"  id="brand" placeholder="Enter brand" />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Price</Form.Label>
+          <Form.Control type="text"  id="price" placeholder="Enter price" />
+        </Form.Group>
+
+        <Button variant="primary"  type="submit" onClick={handleUpdateSubmit}  >
+          Update
         </Button>
       </Form>
     </div>
