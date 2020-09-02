@@ -27,4 +27,9 @@ public class StampingPlateServiceImpl implements StampingPlateService{
         stampingPlateRepository.deleteById(id);
         return HttpStatus.OK;
     }
+
+    @Override
+    public StampingPlate updateStampingPlate(StampingPlate stampingPlate) {
+        return stampingPlateRepository.save(stampingPlate);
+    }
 }
