@@ -25,7 +25,9 @@ function StampingPlates() {
   };
 
   const getUpdatedStampingPlateData = (e) => {
-    const { value, id } = e.target;
+    let { value, id } = e.target;
+    id = id.substring(1);
+    console.log("Inside getUpdatedStampingPlateData:  id: ",id,":  ",value);
     setUpdatedStampingPlate({ ...updatedStampingPlate, [id]: value });
   };
 
@@ -33,6 +35,12 @@ function StampingPlates() {
   const getStampingPlateId = (e) => {
     setStampingPlateId(e.target.value);
   };
+
+  const getStampingPlateIdOnSearch = (e) => {
+    setStampingPlateId(e.target.value);
+  };
+
+  
 
   async function createStampingPlate() {
     console.log("Inside createStampingPlate");
@@ -89,8 +97,8 @@ function StampingPlates() {
         updatedStampingPlate
       );
 
-      let updateForm = document.getElementById("update-form");
-      updateForm.reset();
+      // let updateForm = document.getElementById("update-form");
+      // updateForm.reset();
 
       getStampingPlates();
       console.log("After API call");
@@ -108,7 +116,7 @@ function StampingPlates() {
   };
 
   const handleSearchSubmit = (e) => {
-    // console.log("Inside handleSearchSubmit");
+    console.log("Inside handleSearchSubmit");
     e.preventDefault();
     for (let i = 0; i < stampingPlates.length; i++) {
       const plate = stampingPlates[i];
@@ -202,10 +210,9 @@ function StampingPlates() {
           <Form.Label>ID</Form.Label>
           <Form.Control
             type="text"
-            class="id"
-            id="id"
+            id="sid"
             placeholder="Enter ID"
-            onChange={getStampingPlateId}
+            onChange={getStampingPlateIdOnSearch}
           />
         </Form.Group>
         <Button variant="primary" type="submit" onClick={handleSearchSubmit}>
@@ -217,17 +224,16 @@ function StampingPlates() {
           <Form.Label>ID</Form.Label>
           <Form.Control
             type="text"
-            id="id"
-            placeholder="ID"
+            id="uid"
             disabled
-            placeholder={updatedStampingPlate.id}
+            value={updatedStampingPlate.id}
           />
         </Form.Group>
         <Form.Group>
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
-            id="name"
+            id="uname"
             placeholder={updatedStampingPlate.name}
           />
         </Form.Group>
@@ -235,7 +241,7 @@ function StampingPlates() {
           <Form.Label>Brand</Form.Label>
           <Form.Control
             type="text"
-            id="brand"
+            id="ubrand"
             placeholder={updatedStampingPlate.brand}
           />
         </Form.Group>
@@ -243,7 +249,7 @@ function StampingPlates() {
           <Form.Label>Price</Form.Label>
           <Form.Control
             type="text"
-            id="price"
+            id="uprice"
             placeholder={updatedStampingPlate.price}
           />
         </Form.Group>
