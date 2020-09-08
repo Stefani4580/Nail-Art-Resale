@@ -12,15 +12,27 @@ function StampingPlates() {
   });
   const [stampingPlates, setStampingPlates] = useState([]);
   const [stampingPlateId, setStampingPlateId] = useState([]);
+  const [updatedStampingPlate, setUpdatedStampingPlate] = useState({
+    id: "",
+    name: "",
+    brand: "",
+    price: "",
+  });
 
   const getStampingPlateData = (e) => {
     const { value, id } = e.target;
     setStampingPlate({ ...stampingPlate, [id]: value });
   };
 
-  const getStampingPlateId = (e) =>{
-      setStampingPlateId(e.target.value);
-  }
+  const getUpdatedStampingPlateData = (e) => {
+    const { value, id } = e.target;
+    setUpdatedStampingPlate({ ...updatedStampingPlate, [id]: value });
+  };
+
+
+  const getStampingPlateId = (e) => {
+    setStampingPlateId(e.target.value);
+  };
 
   async function createStampingPlate() {
     console.log("Inside createStampingPlate");
@@ -32,8 +44,6 @@ function StampingPlates() {
 
       let addForm = document.getElementById("add-form");
       addForm.reset();
-      let updateForm = document.getElementById("update-form");
-      updateForm.reset();
 
       getStampingPlates();
       console.log("After API call");
@@ -71,18 +81,55 @@ function StampingPlates() {
     }
   }
 
+  async function updateStampingPlate() {
+    console.log("Inside updateStampingPlate");
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/stampingplates",
+        updatedStampingPlate
+      );
+
+      let updateForm = document.getElementById("update-form");
+      updateForm.reset();
+
+      getStampingPlates();
+      console.log("After API call");
+      console.log(response.data);
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  }
+
+
   const handleSubmit = (e) => {
     // console.log("Inside handleSubmit");
     e.preventDefault();
     createStampingPlate();
   };
 
+  const handleSearchSubmit = (e) => {
+    // console.log("Inside handleSearchSubmit");
+    e.preventDefault();
+    for (let i = 0; i < stampingPlates.length; i++) {
+      const plate = stampingPlates[i];
+      if (plate.id == stampingPlateId) {
+        setUpdatedStampingPlate({
+          id: plate.id,
+          name: plate.name,
+          brand: plate.brand,
+          price: plate.price,
+        });
+        let updateButton = document.getElementById("update-btn");
+        updateButton.disabled = false;
+      }
+    }
+  };
+
   const handleUpdateSubmit = (e) => {
     // console.log("Inside handleUpdateSubmit");
     e.preventDefault();
-    createStampingPlate();
+    updateStampingPlate();
   };
-
 
   const handleDeleteSubmit = (e) => {
     console.log("Inside handleDeleteSubmit");
@@ -140,31 +187,73 @@ function StampingPlates() {
       <Form id="delete-form">
         <Form.Group>
           <Form.Label>ID</Form.Label>
-          <Form.Control type="text" placeholder="Enter ID" onChange={getStampingPlateId}/>
+          <Form.Control
+            type="text"
+            placeholder="Enter ID"
+            onChange={getStampingPlateId}
+          />
         </Form.Group>
         <Button variant="primary" type="submit" onClick={handleDeleteSubmit}>
           Delete
         </Button>
       </Form>
-      <Form id="update-form" onChange={getStampingPlateData}>
+      <Form id="search-form">
         <Form.Group>
           <Form.Label>ID</Form.Label>
-          <Form.Control type="text" class="id" id="id" placeholder="Enter ID" onChange={getStampingPlateId} />
+          <Form.Control
+            type="text"
+            class="id"
+            id="id"
+            placeholder="Enter ID"
+            onChange={getStampingPlateId}
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit" onClick={handleSearchSubmit}>
+          Search
+        </Button>
+      </Form>
+      <Form id="update-form" onChange={getUpdatedStampingPlateData}>
+        <Form.Group>
+          <Form.Label>ID</Form.Label>
+          <Form.Control
+            type="text"
+            id="id"
+            placeholder="ID"
+            disabled
+            placeholder={updatedStampingPlate.id}
+          />
         </Form.Group>
         <Form.Group>
           <Form.Label>Name</Form.Label>
-          <Form.Control type="text"  id="name" placeholder="Enter name" />
+          <Form.Control
+            type="text"
+            id="name"
+            placeholder={updatedStampingPlate.name}
+          />
         </Form.Group>
         <Form.Group>
           <Form.Label>Brand</Form.Label>
-          <Form.Control type="text"  id="brand" placeholder="Enter brand" />
+          <Form.Control
+            type="text"
+            id="brand"
+            placeholder={updatedStampingPlate.brand}
+          />
         </Form.Group>
         <Form.Group>
           <Form.Label>Price</Form.Label>
-          <Form.Control type="text"  id="price" placeholder="Enter price" />
+          <Form.Control
+            type="text"
+            id="price"
+            placeholder={updatedStampingPlate.price}
+          />
         </Form.Group>
 
-        <Button variant="primary"  type="submit" onClick={handleUpdateSubmit}  >
+        <Button
+          variant="primary"
+          type="submit"
+          id="update-btn"
+          onClick={handleUpdateSubmit}
+          disabled >
           Update
         </Button>
       </Form>
